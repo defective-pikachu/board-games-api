@@ -12,6 +12,17 @@ afterAll(() => {
     return db.end()
 })
 
+describe('GET requests', () => {
+    it('should respond with a 404 error if the GET request is made on any endpoint other than /categories', () => {
+        return request(app)
+        .get('/api/wombats')
+        .expect(404)
+        .then((response) => {
+            expect(response.body).toEqual({msg: 'path does not exist'})
+        })
+    })
+})
+
 describe('GET /api/categories', () => {
     it('200: returns with an array of categories', () => {
         return request(app)
@@ -26,14 +37,6 @@ describe('GET /api/categories', () => {
                     description: expect.any(String)
                 });
             })
-        })
-    })
-    it('should respond with a 404 error if the GET request is made on any endpoint other than /categories', () => {
-        return request(app)
-        .get('/api/wombats')
-        .expect(404)
-        .then((response) => {
-            expect(response.body).toEqual({msg: 'path does not exist'})
         })
     })
 })
