@@ -40,3 +40,41 @@ describe('GET /api/categories', () => {
         })
     })
 })
+describe('GET /api/reviews/:reviewid', () => {
+    it('200: returns an appropriate review object', () => {
+        const REVIEW_ID = 1
+        return request(app)
+        .get(`/api/reviews/${REVIEW_ID}`)
+        .expect(200)
+        .then(({ body }) => {
+            expect(typeof body).toBe('object')
+            expect(typeof body.reviews).toBe('object')
+            expect(body.reviews).toHaveProperty('title', expect.any(String))
+            expect(body.reviews).toHaveProperty('designer', expect.any(String))
+            expect(body.reviews).toHaveProperty('owner', expect.any(String))
+            expect(body.reviews).toHaveProperty('review_img_url', expect.any(String))
+            expect(body.reviews).toHaveProperty('review_body', expect.any(String))
+            expect(body.reviews).toHaveProperty('category', expect.any(String))
+            expect(body.reviews).toHaveProperty('created_at', expect.any(String))
+            expect(body.reviews).toHaveProperty('votes', expect.any(Number))
+            expect(body.reviews).toHaveProperty('review_id', expect.any(Number))
+        })
+    })
+    it('404: returns an appropriate error message if an id number is requested that is too high', () => {
+        const REVIEW_ID = 2352
+        return request(app)
+        .get(`/api/reviews/${REVIEW_ID}`)
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Review Not Found')
+        })
+    })
+    it('400: responds with error when user requests invalid id data type', () => {
+        return request(app)
+        .get('/api/reviews/wombat')
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+})
