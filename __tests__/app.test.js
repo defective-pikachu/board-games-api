@@ -42,11 +42,12 @@ describe('GET /api/categories', () => {
 })
 describe('GET /api/reviews/:reviewid', () => {
     it('200: returns an appropriate review object', () => {
-        const REVIEW_ID = 1
+        const REVIEW_ID = 3
         return request(app)
         .get(`/api/reviews/${REVIEW_ID}`)
         .expect(200)
         .then(({ body }) => {
+            console.log(body, 'whats this')
             expect(typeof body).toBe('object')
             expect(typeof body.reviews).toBe('object')
             expect(body.reviews).toHaveProperty('title', expect.any(String))
@@ -58,7 +59,8 @@ describe('GET /api/reviews/:reviewid', () => {
             expect(body.reviews).toHaveProperty('created_at', expect.any(String))
             expect(body.reviews).toHaveProperty('votes', expect.any(Number))
             expect(body.reviews).toHaveProperty('review_id', expect.any(Number))
-            expect(body.reviews.review_id).toBe(1)
+            expect(body.reviews.comment_count).toBe(3)
+            expect(body.reviews.review_id).toBe(3)
         })
     })
     it('404: returns an appropriate error message if an id number is requested that is too high', () => {
@@ -175,7 +177,7 @@ describe('PATCH /api/reviews/:reviewid', () => {
             expect(body.msg).toBe(`Review ${REVIEW_ID} Not Found`)
         })
     })
-    it.only('400: responds with error if passed object is empty', () => {
+    it('400: responds with error if passed object is empty', () => {
         const REVIEW_ID = 1
         const reviewUpdates = {}
         return request(app)
