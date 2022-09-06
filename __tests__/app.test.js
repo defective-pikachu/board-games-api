@@ -47,7 +47,6 @@ describe('GET /api/reviews/:reviewid', () => {
         .get(`/api/reviews/${REVIEW_ID}`)
         .expect(200)
         .then(({ body }) => {
-            console.log(body, 'whats this')
             expect(typeof body).toBe('object')
             expect(typeof body.reviews).toBe('object')
             expect(body.reviews).toHaveProperty('title', expect.any(String))
