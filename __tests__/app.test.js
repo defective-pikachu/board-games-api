@@ -58,6 +58,7 @@ describe('GET /api/reviews/:reviewid', () => {
             expect(body.reviews).toHaveProperty('created_at', expect.any(String))
             expect(body.reviews).toHaveProperty('votes', expect.any(Number))
             expect(body.reviews).toHaveProperty('review_id', expect.any(Number))
+            expect(body.reviews.review_id).toBe(1)
         })
     })
     it('404: returns an appropriate error message if an id number is requested that is too high', () => {
@@ -75,6 +76,25 @@ describe('GET /api/reviews/:reviewid', () => {
         .expect(400)
         .then(({ body }) => {
             expect(body.msg).toBe('Bad Request')
+        })
+    })
+})
+describe('GET /api/users', () => {
+    it('200: returns an array of objects with the correct properties', () => {
+        return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({ body }) => {
+            console.log(body, '<--- whats this')
+            expect(Array.isArray(body.users)).toBe(true);
+            expect(body.users.length).toBe(4);
+            body.users.forEach((user) => {
+                expect(user).toMatchObject({
+                    username: expect.any(String),
+                    name: expect.any(String),
+                    avatar_url: expect.any(String)
+                })
+            })
         })
     })
 })
