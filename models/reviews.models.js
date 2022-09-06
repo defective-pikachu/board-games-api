@@ -13,6 +13,9 @@ exports.selectReviewById = (reviewid) => {
 
 exports.updateReviewById = (reviewid, reviewUpdates) => {
     const { inc_votes } = reviewUpdates;
+    if (inc_votes === undefined) {
+        return Promise.reject({ status: 400, msg: 'you need an inc_votes key!' })
+    } 
     if (typeof inc_votes !== 'number') {
         return Promise.reject({ status: 400, msg: 'please enter a number!' })
     }
