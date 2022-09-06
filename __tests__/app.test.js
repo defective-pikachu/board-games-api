@@ -67,7 +67,7 @@ describe('GET /api/reviews/:reviewid', () => {
         .get(`/api/reviews/${REVIEW_ID}`)
         .expect(404)
         .then(({ body }) => {
-            expect(body.msg).toBe('Review Not Found')
+            expect(body.msg).toBe(`Review ${REVIEW_ID} Not Found`)
         })
     })
     it('400: responds with error when user requests invalid id data type', () => {
@@ -85,7 +85,6 @@ describe('GET /api/users', () => {
         .get('/api/users')
         .expect(200)
         .then(({ body }) => {
-            console.log(body, '<--- whats this')
             expect(Array.isArray(body.users)).toBe(true);
             expect(body.users.length).toBe(4);
             body.users.forEach((user) => {
@@ -95,6 +94,96 @@ describe('GET /api/users', () => {
                     avatar_url: expect.any(String)
                 })
             })
+        })
+    })
+})
+
+describe('PATCH /api/reviews/:reviewid', () => {
+    it('200: should update a review object with an updated votes total when passed an increment votes object with a value of 1', () => {
+        const REVIEW_ID = 1
+        const newVote = 1
+        const reviewUpdates = {
+            inc_votes: newVote
+          }
+        return request(app)
+        .patch(`/api/reviews/${REVIEW_ID}`)
+        .send(reviewUpdates)
+        .expect(200)
+        .then(({body}) => {
+            expect(typeof body).toBe('object')
+            expect(body).toHaveProperty('title', expect.any(String))
+            expect(body).toHaveProperty('designer', expect.any(String))
+            expect(body).toHaveProperty('owner', expect.any(String))
+            expect(body).toHaveProperty('review_img_url', expect.any(String))
+            expect(body).toHaveProperty('review_body', expect.any(String))
+            expect(body).toHaveProperty('category', expect.any(String))
+            expect(body).toHaveProperty('created_at', expect.any(String))
+            expect(body).toHaveProperty('votes', expect.any(Number))
+            expect(body).toHaveProperty('review_id', expect.any(Number))
+            expect(body.votes).toBe(2)
+        })
+    })
+    it('200: should update a review object with an updated votes total when passed an increment votes object with a value of -100', () => {
+        const REVIEW_ID = 1
+        const newVote = -100
+        const reviewUpdates = {
+            inc_votes: newVote
+          }
+        return request(app)
+        .patch(`/api/reviews/${REVIEW_ID}`)
+        .send(reviewUpdates)
+        .expect(200)
+        .then(({body}) => {
+            expect(typeof body).toBe('object')
+            expect(body).toHaveProperty('title', expect.any(String))
+            expect(body).toHaveProperty('designer', expect.any(String))
+            expect(body).toHaveProperty('owner', expect.any(String))
+            expect(body).toHaveProperty('review_img_url', expect.any(String))
+            expect(body).toHaveProperty('review_body', expect.any(String))
+            expect(body).toHaveProperty('category', expect.any(String))
+            expect(body).toHaveProperty('created_at', expect.any(String))
+            expect(body).toHaveProperty('votes', expect.any(Number))
+            expect(body).toHaveProperty('review_id', expect.any(Number))
+            expect(body.votes).toBe(-99)
+        })
+    })
+    it('400: responds with error if inc_votes value is an invalid data type', () => {
+        const REVIEW_ID = 1
+        const newVote = 'great game!'
+        const reviewUpdates = {
+            inc_votes: newVote
+          }
+        return request(app)
+        .patch(`/api/reviews/${REVIEW_ID}`)
+        .send(reviewUpdates)
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('please enter a number!')
+        })
+    })
+    it('404: responds with error if requested review_id is currently unused', () => {
+        const REVIEW_ID = 2352
+        const newVote = 2
+        const reviewUpdates = {
+            inc_votes: newVote
+          }
+        return request(app)
+        .patch(`/api/reviews/${REVIEW_ID}`)
+        .send(reviewUpdates)
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe(`Review ${REVIEW_ID} Not Found`)
+        })
+    })
+    it('400: responds with error if passed object is empty', () => {
+        const REVIEW_ID = 1
+        const reviewUpdates = {}
+        return request(app)
+        .patch(`/api/reviews/${REVIEW_ID}`)
+        .send(reviewUpdates)
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('please enter a number!')
         })
     })
 })
