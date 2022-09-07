@@ -134,7 +134,7 @@ describe('GET /api/reviews', () => {
             })
         })
     })
-    it.skip('404: return an error message if the queried category does not exist', () => {
+    it('404: return an error message if the queried category does not exist', () => {
         return request(app)
         .get('/api/reviews?category=cooperative')
         .expect(404)
@@ -142,12 +142,11 @@ describe('GET /api/reviews', () => {
             expect(body.msg).toBe('Requested Category (cooperative) Does Not Exist Yet')
         })
     })
-    it.skip('200: returns an empty array when category is valid but has no instances in database', () => {
+    it('200: returns an empty array when category is valid but has no instances in database', () => {
         return request(app)
         .get("/api/reviews?category=children's+games")
         .expect(200)
         .then(({body}) => {
-            console.log(body.reviews, 'what is coming back')
             expect(Array.isArray(body.reviews)).toBe(true)
             expect(body.reviews.length).toBe(0)
         })

@@ -24,10 +24,7 @@ app.all('/*', (req, res, next) => {
 } )
 
 app.use((err, req, res, next) => {
-    console.log('are we getting into error handling')
-    console.log(err, 'here we gooo')
     if (err.status && err.msg) {
-        console.log('are we getting into error handling 2')
         res.status(err.status).send({
             msg: err.msg })
     } else {
