@@ -1,13 +1,15 @@
 const { response } = require('express');
 const express = require('express')
 const { getCategories } = require('./controllers/categories.controllers')
-const { getReviewById, patchReviewById } = require('./controllers/reviews.controllers')
+const { getReviews, getReviewById, patchReviewById } = require('./controllers/reviews.controllers')
 const { getUsers } = require('./controllers/users.controllers')
 
 const app = express();
 app.use(express.json())
 
 app.get('/api/categories', getCategories);
+
+app.get('/api/reviews', getReviews)
 
 app.get('/api/reviews/:reviewid', getReviewById)
 
@@ -22,7 +24,10 @@ app.all('/*', (req, res, next) => {
 } )
 
 app.use((err, req, res, next) => {
+    console.log('are we getting into error handling')
+    console.log(err, 'here we gooo')
     if (err.status && err.msg) {
+        console.log('are we getting into error handling 2')
         res.status(err.status).send({
             msg: err.msg })
     } else {

@@ -40,6 +40,120 @@ describe('GET /api/categories', () => {
         })
     })
 })
+describe('GET /api/reviews', () => {
+    it('200: returns an array of review objects', () => {
+        return request(app)
+        .get('/api/reviews')
+        .expect(200)
+        .then(({body}) => {
+            expect(Array.isArray(body.reviews)).toBe(true)
+            expect(body.reviews.length).toBe(13)
+            body.reviews.forEach((review) => {
+                expect(review).toMatchObject({
+                    owner: expect.any(String),
+                    title: expect.any(String),
+                    review_id: expect.any(Number),
+                    category: expect.any(String),
+                    review_img_url: expect.any(String),
+                    created_at: expect.any(String),
+                    votes: expect.any(Number),
+                    designer: expect.any(String),
+                    comment_count: expect.any(Number)
+                })
+            })
+        })
+    })
+    it('200: sorts the reviews by date in descending order', () => {
+        return request(app)
+        .get('/api/reviews')
+        .expect(200)
+        .then(({body}) => {
+            expect(Array.isArray(body.reviews)).toBe(true)
+            expect(body.reviews.length).toBe(13)
+            body.reviews.forEach((review) => {
+                expect(review).toMatchObject({
+                    owner: expect.any(String),
+                    title: expect.any(String),
+                    review_id: expect.any(Number),
+                    category: expect.any(String),
+                    review_img_url: expect.any(String),
+                    created_at: expect.any(String),
+                    votes: expect.any(Number),
+                    designer: expect.any(String),
+                    comment_count: expect.any(Number)
+                })
+            expect(body.reviews).toBeSortedBy(body.reviews.created_at)
+            })
+        })
+    })
+    it('should accept a category query, which filters the reviews by the dexterity category', () => {
+        return request(app)
+        .get('/api/reviews?category=dexterity')
+        .expect(200)
+        .then(({body}) => {
+            expect(Array.isArray(body.reviews)).toBe(true)
+            expect(body.reviews.length).toBe(1)
+            body.reviews.forEach((review) => {
+                expect(review.category).toBe('dexterity')
+                expect(review).toMatchObject({
+                    owner: expect.any(String),
+                    title: expect.any(String),
+                    review_id: expect.any(Number),
+                    category: expect.any(String),
+                    review_img_url: expect.any(String),
+                    created_at: expect.any(String),
+                    votes: expect.any(Number),
+                    designer: expect.any(String),
+                    comment_count: expect.any(Number)
+                })
+            expect(body.reviews).toBeSortedBy(body.reviews.created_at)
+            })
+        })
+    })
+    it('should accept a category query, which filters the reviews by the requested category, in a case where the category should come back containing whitespace', () => {
+        return request(app)
+        .get('/api/reviews?category=euro+game')
+        .expect(200)
+        .then(({body}) => {
+            expect(Array.isArray(body.reviews)).toBe(true)
+            expect(body.reviews.length).toBe(1)
+            body.reviews.forEach((review) => {
+                expect(review.category).toBe('euro game')
+                expect(review).toMatchObject({
+                    owner: expect.any(String),
+                    title: expect.any(String),
+                    review_id: expect.any(Number),
+                    category: expect.any(String),
+                    review_img_url: expect.any(String),
+                    created_at: expect.any(String),
+                    votes: expect.any(Number),
+                    designer: expect.any(String),
+                    comment_count: expect.any(Number)
+                })
+            expect(body.reviews).toBeSortedBy(body.reviews.created_at)
+            })
+        })
+    })
+    it.skip('404: return an error message if the queried category does not exist', () => {
+        return request(app)
+        .get('/api/reviews?category=cooperative')
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).toBe('Requested Category (cooperative) Does Not Exist Yet')
+        })
+    })
+    it.skip('200: returns an empty array when category is valid but has no instances in database', () => {
+        return request(app)
+        .get("/api/reviews?category=children's+games")
+        .expect(200)
+        .then(({body}) => {
+            console.log(body.reviews, 'what is coming back')
+            expect(Array.isArray(body.reviews)).toBe(true)
+            expect(body.reviews.length).toBe(0)
+        })
+    })
+})
+
 describe('GET /api/reviews/:reviewid', () => {
     it('200: returns an appropriate review object', () => {
         const REVIEW_ID = 3
