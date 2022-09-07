@@ -3,7 +3,8 @@ const { selectReviews, selectReviewById, updateReviewById } = require('../models
 
 exports.getReviews = (req, res, next) => {
     const { sort_by, category } = req.query
-    const promisesArray = [selectReviews( sort_by, category )]
+    const reviewsSelection = selectReviews(sort_by, category)
+    const promisesArray = [reviewsSelection]
     if (category) {
         promisesArray.push(checkExists('categories', 'slug', category))
     }

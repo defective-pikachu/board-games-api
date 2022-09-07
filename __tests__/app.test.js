@@ -93,21 +93,19 @@ describe('GET /api/reviews', () => {
         .then(({body}) => {
             expect(Array.isArray(body.reviews)).toBe(true)
             expect(body.reviews.length).toBe(1)
-            body.reviews.forEach((review) => {
-                expect(review.category).toBe('dexterity')
-                expect(review).toMatchObject({
-                    owner: expect.any(String),
-                    title: expect.any(String),
-                    review_id: expect.any(Number),
-                    category: expect.any(String),
-                    review_img_url: expect.any(String),
-                    created_at: expect.any(String),
-                    votes: expect.any(Number),
-                    designer: expect.any(String),
-                    comment_count: expect.any(Number)
-                })
-            expect(body.reviews).toBeSortedBy(body.reviews.created_at)
-            })
+            expect(body.reviews[0]).toEqual({
+                title: 'Jenga',
+                designer: 'Leslie Scott',
+                owner: 'philippaclaire9',
+                review_img_url:
+                  'https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png',
+                review_body: 'Fiddly fun for all the family',
+                category: 'dexterity',
+                created_at: "2021-01-18T10:01:41.251Z",
+                votes: 5,
+                comment_count: 3,
+                review_id: 2
+              })
         })
     })
     it('should accept a category query, which filters the reviews by the requested category, in a case where the category should come back containing whitespace', () => {
@@ -117,20 +115,18 @@ describe('GET /api/reviews', () => {
         .then(({body}) => {
             expect(Array.isArray(body.reviews)).toBe(true)
             expect(body.reviews.length).toBe(1)
-            body.reviews.forEach((review) => {
-                expect(review.category).toBe('euro game')
-                expect(review).toMatchObject({
-                    owner: expect.any(String),
-                    title: expect.any(String),
-                    review_id: expect.any(Number),
-                    category: expect.any(String),
-                    review_img_url: expect.any(String),
-                    created_at: expect.any(String),
-                    votes: expect.any(Number),
-                    designer: expect.any(String),
-                    comment_count: expect.any(Number)
-                })
-            expect(body.reviews).toBeSortedBy(body.reviews.created_at)
+            expect(body.reviews[0]).toEqual({
+                title: 'Agricola',
+                designer: 'Uwe Rosenberg',
+                owner: 'mallionaire',
+                review_img_url:
+                  'https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png',
+                review_body: 'Farmyard fun!',
+                category: 'euro game',
+                created_at: "2021-01-18T10:00:20.514Z",
+                votes: 1,
+                review_id: 1,
+                comment_count: 0
             })
         })
     })
