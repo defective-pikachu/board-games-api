@@ -1,4 +1,20 @@
-const { selectReviewById, updateReviewById } = require('../models/reviews.models')
+const { checkExists } = require('../db/seeds/utils')
+const { selectReviews, selectReviewById, updateReviewById } = require('../models/reviews.models')
+
+exports.getReviews = (req, res, next) => {
+    const { sort_by, category } = req.query
+    const promisesArray = [selectReviews( sort_by, category )]
+    if (category) {
+        promisesArray.push(checkExists('categories', 'slug', category))
+    }
+    Promise.all(promisesArray)
+    .then((reviews) => {
+        res.send({reviews: reviews[0]})
+    })
+    .catch((err) => {
+        next(err)
+    })
+}
 
 exports.getReviewById = (req, res, next) => {
     selectReviewById(req.params.reviewid)
