@@ -1,7 +1,7 @@
 const { response } = require('express');
 const express = require('express')
 const { getCategories } = require('./controllers/categories.controllers')
-const { getReviews, getReviewById, patchReviewById } = require('./controllers/reviews.controllers')
+const { getReviews, getReviewById, patchReviewById, getCommentsByReviewId } = require('./controllers/reviews.controllers')
 const { getUsers } = require('./controllers/users.controllers')
 
 const app = express();
@@ -12,6 +12,8 @@ app.get('/api/categories', getCategories);
 app.get('/api/reviews', getReviews)
 
 app.get('/api/reviews/:reviewid', getReviewById)
+
+app.get('/api/reviews/:reviewid/comments', getCommentsByReviewId)
 
 app.get('/api/users', getUsers)
 

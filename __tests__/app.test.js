@@ -189,6 +189,48 @@ describe('GET /api/reviews/:reviewid', () => {
         })
     })
 })
+
+describe('GET /api/reviews/:reviewid/comments', () => {
+    it('200: returns an array of comments for the given review id of which each comment should have certain properties', () => {
+        const REVIEW_ID = 2
+        return request(app)
+        .get(`/api/reviews/${REVIEW_ID}/comments`)
+        .expect(200)
+        .then(({body}) => {
+            console.log(body, 'whats the boddy')
+            expect(Array.isArray(body.comments)).toBe(true)
+            expect(body.comments.length).toBe(3)
+            body.comments.forEach((comment) => {
+                expect(comment).toMatchObject({
+                    comment_id: expect.any(Number),
+                    votes: expect.any(Number),
+                    created_at: expect.any(String),
+                    author: expect.any(String),
+                    body: expect.any(String),
+                    review_id: expect.any(Number)
+                })
+            })
+        })
+    })
+    it('404: returns an appropriate error message if an id number is requested that is too high', () => {
+        const REVIEW_ID = 2352
+        return request(app)
+        .get(`/api/reviews/${REVIEW_ID}/comments`)
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe(`Review ${REVIEW_ID} Not Found`)
+        })
+    })
+    it('400: responds with error when user requests invalid id data type', () => {
+        return request(app)
+        .get('/api/reviews/wombat/comments')
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
+        })
+    })
+})
+
 describe('GET /api/users', () => {
     it('200: returns an array of objects with the correct properties', () => {
         return request(app)
