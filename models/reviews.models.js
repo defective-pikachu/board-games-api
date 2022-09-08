@@ -36,19 +36,6 @@ exports.selectReviewById = (reviewid) => {
         })
 }
 
-exports.selectCommentsByReviewId = (reviewid) => {
-    const queryStr = `SELECT * FROM comments WHERE review_id=$1;`
-    console.log(queryStr, 'queryStr')
-    return db
-    .query(queryStr, [reviewid])
-    .then(({ rows }) => {
-        if (rows.length === 0) {
-            return Promise.reject({ status: 404, msg: `Review ${reviewid} Not Found`})
-        } 
-        return rows
-    })
-}
-
 exports.updateReviewById = (reviewid, reviewUpdates) => {
     const { inc_votes } = reviewUpdates;
     if (inc_votes === undefined) {

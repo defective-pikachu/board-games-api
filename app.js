@@ -1,7 +1,8 @@
 const { response } = require('express');
 const express = require('express')
 const { getCategories } = require('./controllers/categories.controllers')
-const { getReviews, getReviewById, patchReviewById, getCommentsByReviewId } = require('./controllers/reviews.controllers')
+const { getReviews, getReviewById, patchReviewById } = require('./controllers/reviews.controllers')
+const { getCommentsByReviewId } = require('./controllers/comments.controllers')
 const { getUsers } = require('./controllers/users.controllers')
 
 const app = express();

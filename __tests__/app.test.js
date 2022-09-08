@@ -197,7 +197,6 @@ describe('GET /api/reviews/:reviewid/comments', () => {
         .get(`/api/reviews/${REVIEW_ID}/comments`)
         .expect(200)
         .then(({body}) => {
-            console.log(body, 'whats the boddy')
             expect(Array.isArray(body.comments)).toBe(true)
             expect(body.comments.length).toBe(3)
             body.comments.forEach((comment) => {
@@ -210,6 +209,16 @@ describe('GET /api/reviews/:reviewid/comments', () => {
                     review_id: expect.any(Number)
                 })
             })
+        })
+    })
+    it('200: responds with an empty array when user requests comments on a review that does not have any comments', () => {
+        const REVIEW_ID = 1
+        return request(app)
+        .get(`/api/reviews/${REVIEW_ID}/comments`)
+        .expect(200)
+        .then(({body}) => {
+            expect(Array.isArray(body.comments)).toBe(true)
+            expect(body.comments.length).toBe(0)
         })
     })
     it('404: returns an appropriate error message if an id number is requested that is too high', () => {
