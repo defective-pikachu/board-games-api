@@ -20,8 +20,6 @@ exports.selectCommentsByReviewId = (reviewid) => {
 }
 
 exports.insertComment = (newComment) => {
-    console.log('are we in the model')
-    console.log(newComment, 'new comment')
     const { author, body, review_id } = newComment
     if (body.length === 0) {
         return Promise.reject({ status: 400, msg: 'Please enter a comment!'})
@@ -29,12 +27,9 @@ exports.insertComment = (newComment) => {
     if (typeof body !== 'string' || typeof author !== 'string') {
         return Promise.reject({ status: 400, msg: 'please enter a valid comment!' })
     }
-    console.log(author, body, review_id, 'here we are!')
     return db
         .query(`INSERT INTO comments (body, author, review_id) VALUES ($1, $2, $3) RETURNING*;`, [body, author, review_id])
         .then(({ rows }) => {
-            console.log(rows, 'rows')
-            console.log('are we in the then block')
             return rows[0]
         })
 }

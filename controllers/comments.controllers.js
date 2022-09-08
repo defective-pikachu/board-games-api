@@ -11,7 +11,6 @@ exports.getCommentsByReviewId = (req, res, next) => {
 }
 
 exports.postCommentByReviewId = (req, res, next) => {
-    console.log('are we in the controller')
     insertComment(req.body)
     .then((comment) => {
         res.status(201).send({comment})

@@ -272,7 +272,6 @@ describe('POST /api/reviews/:reviewid/comments', () => {
         .send(newComment)
         .expect(201)
         .then(({ body }) => {
-            console.log(body.comment, 'what is this')
             expect(typeof body.comment).toBe('object')
             expect(body.comment.body).toBe('Oh, it\'s a real great game!')
             expect(body.comment.author).toBe('philippaclaire9')
