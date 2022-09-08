@@ -259,6 +259,60 @@ describe('GET /api/users', () => {
     })
 })
 
+describe('POST /api/reviews/:reviewid/comments', () => {
+    it('201: should respond with a new posted comment', () => {
+        const REVIEW_ID = 2
+        const newComment = {
+            body: 'Oh, it\'s a real great game!',
+            author: 'philippaclaire9',
+            review_id: `${REVIEW_ID}`
+            }
+        return request(app)
+        .post(`/api/reviews/${REVIEW_ID}/comments`)
+        .send(newComment)
+        .expect(201)
+        .then(({ body }) => {
+            console.log(body.comment, 'what is this')
+            expect(typeof body.comment).toBe('object')
+            expect(body.comment.body).toBe('Oh, it\'s a real great game!')
+            expect(body.comment.author).toBe('philippaclaire9')
+            expect(body.comment).toHaveProperty('review_id', expect.any(Number))
+            expect(body.comment).toHaveProperty('votes', expect.any(Number))
+            expect(body.comment).toHaveProperty('created_at', expect.any(String))
+        })
+    })
+    it('400: responds with an error if an invalid data type is passed within the newComment object', () => {
+        const REVIEW_ID = 2
+        const newComment = {
+            body: 236,
+            author: 'philippaclaire9',
+            review_id: `${REVIEW_ID}`
+        }
+        return request(app)
+        .post(`/api/reviews/${REVIEW_ID}/comments`)
+        .send(newComment)
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('please enter a valid comment!')
+        })
+    })
+    it('400: responds with error if user attempts to add a blank comment', () => {
+        const REVIEW_ID = 5346
+        const newComment = {
+            body: '',
+            author: 'philippaclaire9',
+            review_id: `${REVIEW_ID}`
+            }
+        return request(app)
+        .post(`/api/reviews/${REVIEW_ID}/comments`)
+        .send(newComment)
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe(`Please enter a comment!`)
+        })
+    })
+})
+
 describe('PATCH /api/reviews/:reviewid', () => {
     it('200: should update a review object with an updated votes total when passed an increment votes object with a value of 1', () => {
         const REVIEW_ID = 1
