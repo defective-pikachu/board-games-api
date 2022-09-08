@@ -1,4 +1,4 @@
-const db = require("../connection");
+const db = require("../db/connection");
 
 exports.selectCategories = () => {
    let queryStr = `SELECT * FROM categories`
