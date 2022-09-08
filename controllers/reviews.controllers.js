@@ -1,5 +1,5 @@
 const { checkExists } = require('../db/seeds/utils')
-const { selectReviews, selectReviewById, updateReviewById } = require('../models/reviews.models')
+const { selectReviews, selectReviewById, updateReviewById, selectCommentsByReviewId } = require('../models/reviews.models')
 
 exports.getReviews = (req, res, next) => {
     const { sort_by, category } = req.query
@@ -25,6 +25,17 @@ exports.getReviewById = (req, res, next) => {
     .catch((err) => {
         next(err)
     });
+}
+
+exports.getCommentsByReviewId = (req, res, next) => {
+    console.log(req.params.reviewid, 'checking this')
+    selectCommentsByReviewId(req.params.reviewid)
+    .then((comments) => {
+        res.send({ comments })
+    })
+    .catch((err) => {
+        next(err)
+    })
 }
 
 exports.patchReviewById = (req, res, next) => {
