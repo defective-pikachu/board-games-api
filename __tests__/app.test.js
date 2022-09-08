@@ -296,7 +296,7 @@ describe('POST /api/reviews/:reviewid/comments', () => {
         })
     })
     it('400: responds with error if user attempts to add a blank comment', () => {
-        const REVIEW_ID = 5346
+        const REVIEW_ID = 2
         const newComment = {
             body: '',
             author: 'philippaclaire9',
@@ -308,6 +308,36 @@ describe('POST /api/reviews/:reviewid/comments', () => {
         .expect(400)
         .then(({ body }) => {
             expect(body.msg).toBe(`Please enter a comment!`)
+        })
+    })
+    it('404: responds with an error if the review is not found', () => {
+        const REVIEW_ID = 5432
+        const newComment = {
+            body: 'Oh, it\'s a real great game!',
+            author: 'philippaclaire9',
+            review_id: `${REVIEW_ID}`
+        }
+        return request(app)
+        .post(`/api/reviews/${REVIEW_ID}/comments`)
+        .send(newComment)
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe(`Review ${REVIEW_ID} Not Found`)
+        })
+    })
+    it('400: responds with an error if the review_id data type is invalid', () => {
+        const REVIEW_ID = 'trevor'
+        const newComment = {
+            body: 'Oh, it\'s a real great game!',
+            author: 'philippaclaire9',
+            review_id: `${REVIEW_ID}`
+        }
+        return request(app)
+        .post(`/api/reviews/${REVIEW_ID}/comments`)
+        .send(newComment)
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe(`Bad Request`)
         })
     })
 })
