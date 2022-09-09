@@ -1,6 +1,6 @@
 # Board Games API
 
-Welcome to Michael's Board Games API! This readme file will be maintained and updated throughout the project. 
+Welcome to Michael's Board Games API! This readme file will be regularly maintained and updated. 
 
 ## Hosted Project
 
