@@ -446,7 +446,7 @@ describe('POST /api/reviews/:reviewid/comments', () => {
 })
 
 describe('PATCH /api/reviews/:reviewid', () => {
-    it.only('200: should update a review object with an updated votes total when passed an increment votes object with a value of 1', () => {
+    it('200: should update a review object with an updated votes total when passed an increment votes object with a value of 1', () => {
         const REVIEW_ID = 1
         const newVote = 1
         const reviewUpdates = {
@@ -457,8 +457,6 @@ describe('PATCH /api/reviews/:reviewid', () => {
         .send(reviewUpdates)
         .expect(200)
         .then((review) => {
-            console.log(review.body, 'here')
-            expect(typeof review.body).toBe('object')
             expect(review.body).toHaveProperty('title', expect.any(String))
             expect(review.body).toHaveProperty('designer', expect.any(String))
             expect(review.body).toHaveProperty('owner', expect.any(String))
