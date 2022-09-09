@@ -340,6 +340,21 @@ describe('POST /api/reviews/:reviewid/comments', () => {
             expect(body.msg).toBe(`Bad Request`)
         })
     })
+    it('400: responds with an error if comment is submitting with a username that does not exist', () => {
+        const REVIEW_ID = 'trevor'
+        const newComment = {
+            body: 'Oh, it\'s a real great game!',
+            author: 'cremedelakremlin',
+            review_id: `${REVIEW_ID}`
+        }
+        return request(app)
+        .post(`/api/reviews/${REVIEW_ID}/comments`)
+        .send(newComment)
+        .expect(400)
+        .then(( {body }) => {
+            expect(body.msg).toBe(`username ${newComment.author} does not exist!`)
+        })
+    })
 })
 
 describe('PATCH /api/reviews/:reviewid', () => {
