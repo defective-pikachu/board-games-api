@@ -4,7 +4,7 @@ Welcome to Michael's Board Games API! This readme file will be regularly maintai
 
 ## Hosted Project
 
-The hosted project can be found at: https://michael-games-app.herokuapp.com/
+The hosted project can be found at: https://michael-games-app.herokuapp.com/api
 
 ## What is the Project?
 
@@ -20,9 +20,9 @@ The project aims to demonstrate my understanding of application programming inte
 
 ## Setting Up API
 
-If you would like to use this API, you can git clone it. To do this, navigate to https://github.com/cremedelakremlin/board-games-api. Once there, click the Code drop down button, and copy the displayed https link or click "Open with GitHub Desktop" if you are a desktop app user. If you have copied the link, navigate to your desired directory within your terminal, and enter "git clone <<URL>>". You should then be able to open the repo in VS Code or your code editing software of choice.
+If you would like to use this API, you can git clone it. To do this, navigate to https://github.com/cremedelakremlin/board-games-api. Once there, click the Code drop down button, and copy the displayed https link or click "Open with GitHub Desktop" if you are a desktop app user. If you have copied the link, navigate to your desired directory within your terminal, and enter ```git clone <<URL>>```. You should then be able to open the repo in VS Code or your code editing software of choice.
 
-Once open, run "npm install" to install project dependencies locally. This will install the following dependencies necessary for the repo to function:
+Once open, run ```npm install``` to install project dependencies locally. This will install the following dependencies necessary for the repo to function:
 
 - dotenv
 - express
@@ -33,12 +33,12 @@ Once open, run "npm install" to install project dependencies locally. This will 
 
 Additionally, you will need to run the following command to install Husky and jest-sorted:
 
-- npx husky-init && npm install
-- npm install —save-dev jest-sorted
+- ```npx husky-init && npm install```
+- ```npm install —save-dev jest-sorted```
 
 Finally, you will need to add "jest-sorted" to your package.json file, under jest > setupFilesAfterEnv
 
-Next you will need to seed your local database. This can be done by running the command "npm setup-dbs" and then "npm run seed". To run the test files, you can either run the command "npm t" or choose to run specific test files by copying the relative path from the files in the __tests__ folder and then running "npm t <<file_name>>.
+Next you will need to seed your local database. This can be done by running the command ```npm run setup-dbs``` and then ```npm run seed```. To run the test files, you can either run the command "npm t" or choose to run specific test files by copying the relative path from the files in the __tests__ folder and then running ```npm t <<file_name>>```.
 
 
 ## Developer files
