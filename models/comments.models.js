@@ -67,7 +67,6 @@ exports.removeComment = (comment_id) => {
                 .query(`DELETE FROM comments WHERE review_id=$1;`, [comment_id])
                 .then((result) => {
                     if (comment_id > numberOfComments) return Promise.reject({ status: 404, msg: `that comment does not exist!`})
-                    return result.rows[0]
                 })
         })
 }
