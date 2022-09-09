@@ -4,6 +4,7 @@ const { getCategories } = require('./controllers/categories.controllers')
 const { getReviews, getReviewById, patchReviewById } = require('./controllers/reviews.controllers')
 const { getCommentsByReviewId, postCommentByReviewId, deleteComment, getCommentById } = require('./controllers/comments.controllers')
 const { getUsers } = require('./controllers/users.controllers')
+const { getApi } = require('./controllers/api.controllers')
 
 const app = express();
 app.use(express.json())
