@@ -22,16 +22,13 @@ exports.selectCommentsByReviewId = (reviewid) => {
 exports.insertComment = (newComment) => {
     let numberOfReviews = 0
     const { author, body, review_id } = newComment
-    console.log(author, 'author')
     const queryStr = `SELECT username FROM users WHERE users.username=$1;`
     return db
         .query(queryStr, [author]).then((result) => {
-            console.log(result.rows.length, 'result.rows')
             if (result.rows.length === 0) {
                 return Promise.reject({ status: 400, msg: `username ${author} does not exist!`})
                 } else return Promise.resolve()
             .then(() => {
-                console.log('are we getting in here')
                 return db
                     .query(`SELECT review_id FROM reviews`).then((result) => {
                         numberOfReviews = result.rows.length
