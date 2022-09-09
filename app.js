@@ -7,6 +7,7 @@ const { getUsers } = require('./controllers/users.controllers')
 const { getApi } = require('./controllers/api.controllers')
 
 const app = express();
+
 app.use(express.json())
 
 app.get('/api', getApi)
