@@ -8,6 +8,8 @@ const { getUsers } = require('./controllers/users.controllers')
 const app = express();
 app.use(express.json())
 
+app.get('/api', getApi)
+
 app.get('/api/categories', getCategories);
 
 app.get('/api/reviews', getReviews)
@@ -26,7 +28,6 @@ app.get('/api/comments/:commentid', getCommentById)
 
 app.delete('/api/comments/:commentid', deleteComment)
 
-app.get('/api', getApi)
 
 // handle custom errors
 
