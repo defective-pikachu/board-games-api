@@ -4,8 +4,6 @@ const { checkExists } = require("../db/seeds/utils");
 
 exports.selectReviews = (sort_by = 'created_at', order = 'DESC', category) => {
 
-    console.log('are we in the model mateeee')
-
     const validColumns = ['name', 'title', 'review_id', 'category', 'review_img_url', 'created_at', 'votes', 'designer', 'comment_count']
     const validOrder = ['DESC', 'ASC']
     if (!validColumns.includes(sort_by)) {
