@@ -457,7 +457,6 @@ describe('PATCH /api/reviews/:reviewid', () => {
         .send(reviewUpdates)
         .expect(200)
         .then((review) => {
-            expect(typeof review.body).toBe('object')
             expect(review.body).toHaveProperty('title', expect.any(String))
             expect(review.body).toHaveProperty('designer', expect.any(String))
             expect(review.body).toHaveProperty('owner', expect.any(String))
