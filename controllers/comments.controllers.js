@@ -1,4 +1,4 @@
-const { selectCommentsByReviewId, insertComment } = require('../models/comments.models')
+const { selectCommentsByReviewId, insertComment, removeComment, selectCommentById } = require('../models/comments.models')
 
 exports.getCommentsByReviewId = (req, res, next) => {
     selectCommentsByReviewId(req.params.reviewid)
@@ -18,4 +18,25 @@ exports.postCommentByReviewId = (req, res, next) => {
     .catch((err) => {
         next(err)
     })
+}
+
+exports.deleteComment = (req, res, next) => {
+    const commentToDelete = req.params.commentid
+    removeComment(commentToDelete)
+    .then((comment) => {
+        res.status(204).send({})
+    })
+    .catch((err) => {
+        next(err)
+    })
+}
+
+exports.getCommentById = (req, res, next) => {
+    selectCommentById(req.params.commentid)
+    .then((reviews) => {
+        res.send({ reviews });
+    })
+    .catch((err) => {
+        next(err)
+    });
 }

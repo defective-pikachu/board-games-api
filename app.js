@@ -2,7 +2,7 @@ const { response } = require('express');
 const express = require('express')
 const { getCategories } = require('./controllers/categories.controllers')
 const { getReviews, getReviewById, patchReviewById } = require('./controllers/reviews.controllers')
-const { getCommentsByReviewId, postCommentByReviewId } = require('./controllers/comments.controllers')
+const { getCommentsByReviewId, postCommentByReviewId, deleteComment, getCommentById } = require('./controllers/comments.controllers')
 const { getUsers } = require('./controllers/users.controllers')
 
 const app = express();
@@ -21,6 +21,10 @@ app.get('/api/users', getUsers)
 app.post('/api/reviews/:reviewid/comments', postCommentByReviewId)
 
 app.patch('/api/reviews/:reviewid', patchReviewById)
+
+app.get('/api/comments/:commentid', getCommentById)
+
+app.delete('/api/comments/:commentid', deleteComment)
 
 // handle custom errors
 
