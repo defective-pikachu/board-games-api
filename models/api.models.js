@@ -1,6 +1,6 @@
-const db = require('../db/connection');
 const endpoints = require('../endpoints.json')
 
 exports.selectApi = () => {
-    return endpoints
+    const endpoints = endpoints
+    res.status(200).send({endpoints})
  };
