@@ -26,6 +26,8 @@ app.get('/api/comments/:commentid', getCommentById)
 
 app.delete('/api/comments/:commentid', deleteComment)
 
+app.get('/api', getApi)
+
 // handle custom errors
 
 app.all('/*', (req, res, next) => {
