@@ -209,6 +209,30 @@ describe('GET /api/reviews', () => {
             expect(body.reviews.length).toBe(0)
         })
     })
+    it('200: can handle multiple sort and filter requests', () => {
+        return request(app)
+        .get('/api/reviews?category=dexterity&sort_by=comment_count&order=asc')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.reviews.length).toBe(1)
+            expect(Array.isArray(body.reviews)).toBe(true)
+            expect(body.reviews[0]).toEqual({
+                title: 'Jenga',
+                designer: 'Leslie Scott',
+                owner: 'philippaclaire9',
+                review_img_url:
+                  'https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png',
+                review_body: 'Fiddly fun for all the family',
+                category: 'dexterity',
+                created_at: '2021-01-18T10:01:41.251Z',
+                votes: 5,
+                review_id: 2,
+                comment_count: 3
+            })
+            expect(body.reviews).toBeSortedBy('comment_count', {ascending: true
+            })
+        })
+    })
 })
 
 describe('GET /api/reviews/:reviewid', () => {
