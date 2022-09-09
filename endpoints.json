@@ -26,9 +26,141 @@
           "review_img_url": "https://images.pexels.com/photos/5350049/pexels-photo-5350049.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
           "category": "hidden-roles",
           "created_at": 1610964101251,
-          "votes": 5
+          "votes": 5,
+          "review_id": 3,
+          "comment_count": 3
         }
       ]
+    }
+  },
+  "GET /api/reviews/:reviewid": {
+    "description": "serves an individual review",
+    "queries": [],
+    "example response": {
+      "reviews": {
+        "title": "Ultimate Werewolf",
+        "designer": "Akihisa Okui",
+        "owner": "bainesface",
+        "review_img_url": "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+        "review_body": "We couldn't find the werewolf!",
+        "category": "social deduction",
+        "created_at": "2021-01-18T10:01:41.251Z",
+        "votes": 5,
+        "review_id": 3,
+        "comment_count": 3
+      }
+    }
+  },
+  "GET: /api/reviews/:reviewid/comments": {
+    "description": "serves an array of all the comments on an individual review",
+    "queries": [],
+    "example response": {
+      "comments": [
+        {
+          "comment_id": 1,
+          "body": "I loved this game too!",
+          "review_id": 2,
+          "author": "bainesface",
+          "votes": 16,
+          "created_at": "2017-11-22T12:43:33.389Z"
+        },
+        {
+          "comment_id": 4,
+          "body": "EPIC board game!",
+          "review_id": 2,
+          "author": "bainesface",
+          "votes": 16,
+          "created_at": "2017-11-22T12:36:03.389Z"
+        },
+        {
+          "comment_id": 5,
+          "body": "Now this is a story all about how, board games turned my life upside down",
+          "review_id": 2,
+          "author": "mallionaire",
+          "votes": 13,
+          "created_at": "2021-01-18T10:24:05.410Z"
+        }
+      ]
+    }
+  },
+  "GET: /api/users": {
+    "description": "serves an array of all users",
+    "queries": [],
+    "example response": {
+      "users": [
+        {
+          "username": "mallionaire",
+          "name": "haz",
+          "avatar_url": "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg"
+        },
+        {
+          "username": "philippaclaire9",
+          "name": "philippa",
+          "avatar_url": "https://avatars2.githubusercontent.com/u/24604688?s=460&v=4"
+        },
+        {
+          "username": "bainesface",
+          "name": "sarah",
+          "avatar_url": "https://avatars2.githubusercontent.com/u/24604688?s=460&v=4"
+        },
+        {
+          "username": "dav3rid",
+          "name": "dave",
+          "avatar_url": "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png"
+        }
+      ]
+    }
+  },
+  "POST /api/reviews/:reviewid/comments": {
+    "description": "posts a comment to an existing review",
+    "queries": [],
+    "example response": {
+      "comment": {
+        "comment_id": 7,
+        "body": "Oh, it's a real great game!",
+        "review_id": 2,
+        "author": "philippaclaire9",
+        "votes": 0,
+        "created_at": "2022-09-09T11:19:58.419Z"
+      }
+    }
+  },
+  "PATCH: /api/reviews/:reviewid": {
+    "description": "alters an existing review",
+    "queries": [],
+    "example response": {
+      "review": {
+        "review_id": 1,
+        "title": "Agricola",
+        "category": "euro game",
+        "designer": "Uwe Rosenberg",
+        "owner": "mallionaire",
+        "review_body": "Farmyard fun!",
+        "review_img_url": "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+        "created_at": "2021-01-18T10:00:20.514Z",
+        "votes": 2
+      }
+    }
+  },
+  "GET: /api/comments/:commentid": {
+    "description": "serves an individual comment",
+    "queries": [],
+    "example response": {
+      "comment": {
+        "comment_id": 1,
+        "body": "I loved this game too!",
+        "review_id": 2,
+        "author": "bainesface",
+        "votes": 16,
+        "created_at": "2017-11-22T12:43:33.389Z"
+      }
+    }
+  },
+  "DELETE: /api/comments/:commentid": {
+    "description": "deletes an existing comment",
+    "queries": [],
+    "example response": {
+      "comment": {}
     }
   }
 }
