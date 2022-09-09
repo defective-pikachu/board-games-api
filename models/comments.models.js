@@ -55,3 +55,30 @@ exports.insertComment = (newComment) => {
             })
         })
 }
+
+exports.removeComment = (comment_id) => {
+    let numberOfComments = 0;
+    return db
+        .query(`SELECT comment_id FROM comments`)
+        .then((result) => {
+            numberOfComments = result.rows.length
+        }).then(() => {
+            return db
+                .query(`DELETE FROM comments WHERE review_id=$1;`, [comment_id])
+                .then((result) => {
+                    if (comment_id > numberOfComments) return Promise.reject({ status: 404, msg: `that comment does not exist!`})
+                    return result.rows[0]
+                })
+        })
+}
+
+exports.selectCommentById = (commentid) => {
+    return db
+    .query(`SELECT * FROM comments WHERE comments.comment_id=$1;`, [commentid])
+    .then(({ rows }) => {
+        if (rows.length === 0) {
+            return Promise.reject({ status: 404, msg: `Comment ${commentid} Not Found`})
+        } 
+            return rows[0];
+        })
+}

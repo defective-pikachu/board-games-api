@@ -3,6 +3,7 @@ const seed = require('../db/seeds/seed');
 const testData = require('../db/data/test-data/index.js');
 const app = require('../app');
 const request = require('supertest');
+const { getCommentById } = require('../controllers/comments.controllers');
 
 beforeEach(() => {
     return seed(testData)
@@ -40,6 +41,7 @@ describe('GET /api/categories', () => {
         })
     })
 })
+
 describe('GET /api/reviews', () => {
     it('200: returns an array of review objects', () => {
         return request(app)
@@ -529,6 +531,43 @@ describe('PATCH /api/reviews/:reviewid', () => {
         .expect(400)
         .then(({body}) => {
             expect(body.msg).toBe('you need an inc_votes key!')
+        })
+    })
+})
+
+describe('DELETE /api/comments/:commentid', () => {
+    it('204: responds with empty response body and comment is no longer in database after DELETE is completed', () => {
+        const COMMENT_ID = 3
+        return request(app)
+        .delete(`/api/comments/${COMMENT_ID}`)
+        .expect(204)
+        .then(({ body }) => {
+            expect(body).toEqual({})
+            const COMMENT_ID = 3
+            return request(app)
+            .get(`/api/comments/${COMMENT_ID}`)
+            .expect(404)
+            .then(({ body }) => {
+                expect(body.msg).toBe(`Comment ${COMMENT_ID} Not Found`)
+            })
+        })
+    })
+    it('404: responds with error if user tries to delete a comment that does not exist', () => {
+        const COMMENT_ID = 5432
+        return request(app)
+        .delete(`/api/comments/${COMMENT_ID}`)
+        .expect(404)
+        .then(({ body }) => {
+            expect(body.msg).toBe('that comment does not exist!')
+        })
+    })
+    it('400: responds with error if user tries to delete a comment using an incorrect data type', () => {
+        const COMMENT_ID = 'wallaby'
+        return request(app)
+        .delete(`/api/comments/${COMMENT_ID}`)
+        .expect(400)
+        .then(({ body }) => {
+            expect(body.msg).toBe('Bad Request')
         })
     })
 })
