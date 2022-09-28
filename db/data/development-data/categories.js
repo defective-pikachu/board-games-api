@@ -10,6 +10,11 @@ module.exports = [
       "One or more players around the table have a secret, and the rest of you need to figure out who! Players attempt to uncover each other's hidden role"
   },
   {
+    slug: 'cooperative',
+    description:
+      "players work together to achieve a common goal"
+  },
+  {
     slug: 'dexterity',
     description:
       'Games involving physical skill, something like Gladiators, for Board Games!'
