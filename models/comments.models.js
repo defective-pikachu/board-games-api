@@ -8,7 +8,7 @@ exports.selectCommentsByReviewId = (reviewid) => {
         }).then(() => {
             const queryStr = `SELECT * FROM comments WHERE comments.review_id=$1;`
             return db
-                .query(queryStr, [reviewid])yes
+                .query(queryStr, [reviewid])
         })
                 .then(({ rows }) => {
                     if (rows.length === 0) {
