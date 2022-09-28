@@ -31,7 +31,7 @@ module.exports = [
       'https://images.pexels.com/photos/5350049/pexels-photo-5350049.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
     review_body:
       'Try to trick your friends. If you find yourself being dealt the Chamelean card then the aim of the game is simple; blend in... Meanwhile the other players aim to be as vague as they can to not give the game away ',
-    category: 'hidden-roles',
+    category: 'cooperative',
     created_at: new Date(1610964102151),
     votes: 5
   },
