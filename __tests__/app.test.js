@@ -557,7 +557,7 @@ describe('DELETE /api/comments/:commentid', () => {
         .delete(`/api/comments/${COMMENT_ID}`)
         .expect(404)
         .then(({ body }) => {
-            expect(body.msg).toBe('that comment does not exist!')
+            expect(body.msg).toBe('comment not found')
         })
     })
     it('400: responds with error if user tries to delete a comment using an incorrect data type', () => {

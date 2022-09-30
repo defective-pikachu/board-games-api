@@ -56,20 +56,33 @@ exports.insertComment = (newComment) => {
         })
 }
 
-exports.removeComment = (comment_id) => {
-    let numberOfComments = 0;
-    return db
-        .query(`SELECT comment_id FROM comments`)
-        .then((result) => {
-            numberOfComments = result.rows.length
-        }).then(() => {
-            return db
-                .query(`DELETE FROM comments WHERE review_id=$1;`, [comment_id])
-                .then((result) => {
-                    if (comment_id > numberOfComments) return Promise.reject({ status: 404, msg: `that comment does not exist!`})
-                })
-        })
-}
+// exports.removeComment = (comment_id) => {
+//     // let numberOfComments = 0;
+//     // return db
+//     //     .query(`SELECT comment_id FROM comments`)
+//     //     .then((result) => {
+//     //         numberOfComments = result.rows.length
+//     //     }).then(() => {
+//             return db
+//                 .query(`DELETE FROM comments WHERE review_id=$1;`, [comment_id])
+//                 .then((result) => {
+//                     // if (comment_id > numberOfComments) return Promise.reject({ status: 404, msg: `that comment does not exist!`})
+//                 })
+//         // })
+// }
+
+// uses NC code to try and create functionality in front end
+
+exports.removeComment = async (comment_id) => {
+    const { rowCount: numberOfDeletions } = await db.query(
+      `DELETE FROM comments WHERE comment_id = $1;`,
+      [comment_id]
+    );
+  
+    if (!numberOfDeletions) {
+      return Promise.reject({ status: 404, msg: 'comment not found' });
+    }
+  };
 
 exports.selectCommentById = (commentid) => {
     return db
